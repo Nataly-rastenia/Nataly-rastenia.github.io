@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Магазин растений</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  :root{
+    --bg: #F5F4EC;
+    --bg-alt: #ECEEE4;
+    --card: #FFFFFF;
+    --ink: #2E3527;
+    --ink-soft: #656C5B;
+    --sage: #7C9473;
+    --sage-deep: #55704E;
+    --blush: #DEB0AA;
+    --blush-deep: #C68F88;
+    --mint-pale: #E6EBDD;
+    --tag: #D9C7A3;
+    --tag-ink: #4A3F27;
+    --line: #DCD7C8;
+    --radius: 22px;
+    --shadow: 0 8px 30px rgba(46,53,39,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    font-weight:400;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  .italic{font-style:italic; font-weight:500;}
+  a{color:inherit;}
+  button{font-family:inherit; cursor:pointer;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1160px; margin:0 auto; padding:0 28px;}
+  .eyebrow{
+    text-transform:uppercase; letter-spacing:0.14em; font-size:12px;
+    color:var(--sage-deep); font-weight:600;
+  }
+
+  /* ===== Header ===== */
+  header.site-header{
+    position:sticky; top:0; z-index:40;
+    background:rgba(245,244,236,0.92); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .header-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px; max-width:1160px; margin:0 auto;
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-leaf{width:30px; height:30px; flex-shrink:0;}
+  .brand-name{font-size:22px;}
+  nav.main-nav{display:flex; gap:26px; align-items:center; font-size:15px;}
+  nav.main-nav a{text-decoration:none; color:var(--ink-soft); transition:color .15s;}
+  nav.main-nav a:hover{color:var(--sage-deep);}
+  .icon-btn{
+    background:none; border:none; padding:8px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; color:var(--ink);
+    position:relative;
+  }
+  .icon-btn:hover{background:var(--bg-alt);}
+  .cart-badge{
+    position:absolute; top:2px; right:2px; background:var(--blush-deep); color:#fff;
+    font-size:10px; min-width:16px; height:16px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; padding:0 3px;
+  }
+  .header-icons{display:flex; align-items:center; gap:2px;}
+
+  /* ===== Hero ===== */
+  .hero{padding:76px 0 60px; position:relative; overflow:hidden;}
+  .hero-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:50px; align-items:center;}
+  .hero h1{font-size:52px; line-height:1.05;}
+  .hero p.lead{font-size:18px; color:var(--ink-soft); max-width:480px; margin-top:18px;}
+  .hero-actions{margin-top:30px; display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:13px 26px; border-radius:100px;
+    border:1px solid transparent; font-size:15px; font-weight:500; transition:transform .15s, box-shadow .15s;
+  }
+  .btn-primary{background:var(--sage-deep); color:#fff;}
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(85,112,78,0.3);}
+  .btn-outline{background:transparent; border-color:var(--ink); color:var(--ink);}
+  .btn-outline:hover{background:var(--ink); color:#fff;}
+  .btn-ghost-light{background:rgba(255,255,255,0.12); color:#fff; border:1px solid rgba(255,255,255,0.5);}
+  .btn-ghost-light:hover{background:rgba(255,255,255,0.24);}
+  .btn-sm{padding:8px 16px; font-size:13px;}
+  .hero-art{position:relative; height:340px;}
+  .hero-tag{
+    position:absolute; bottom:20px; left:10px; background:var(--tag); color:var(--tag-ink);
+    padding:14px 20px; border-radius:6px; transform:rotate(-4deg); box-shadow:var(--shadow);
+    font-family:'Fraunces',serif; font-size:14px; z-index:3;
+  }
+  .hero-tag:before{
+    content:''; position:absolute; top:-10px; left:50%; width:2px; height:12px; background:var(--tag-ink); opacity:.4;
+  }
+
+  /* ===== Hero carousel ===== */
+  .hero-carousel{position:relative; width:100%; height:340px; border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); background:var(--mint-pale);}
+  .carousel-slide{width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:var(--sage-deep); font-size:14px; text-align:center; padding:20px; position:relative;}
+  .carousel-slide img{width:100%; height:100%; object-fit:contain; object-position:center; background:var(--mint-pale);}
+  .carousel-arrow{position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,0.85); border:none; width:36px; height:36px; border-radius:50%; font-size:20px; display:flex; align-items:center; justify-content:center; color:var(--ink); box-shadow:0 2px 8px rgba(0,0,0,.15);}
+  .arrow-left{left:12px;}
+  .arrow-right{right:12px;}
+  .carousel-dots{position:absolute; bottom:14px; left:50%; transform:translateX(-50%); display:flex; gap:7px;}
+  .carousel-dot{width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.6); border:none; padding:0;}
+  .carousel-dot.active{background:#fff; width:20px; border-radius:4px;}
+  .carousel-edit-btn{display:none; top:10px; right:10px;}
+  body.admin-on .hero-carousel:hover .carousel-edit-btn{display:flex;}
+
+  /* editable */
+  [data-editable]{position:relative;}
+  .edit-pencil{
+    display:none; position:absolute; top:-10px; right:-10px; background:var(--sage-deep); color:#fff;
+    border:none; width:26px; height:26px; border-radius:50%; font-size:12px; align-items:center; justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2); z-index:5;
+  }
+  body.admin-on [data-editable]:hover .edit-pencil{display:flex;}
+  body.admin-on [data-editable]{outline:1px dashed transparent; transition:outline-color .15s;}
+  body.admin-on [data-editable]:hover{outline-color:var(--sage);}
+
+  /* ===== Sections generic ===== */
+  section{padding:64px 0;}
+  .section-head{max-width:600px; margin-bottom:40px;}
+  .section-head h2{font-size:34px; margin-top:10px;}
+  .section-head p{color:var(--ink-soft); margin-top:12px; font-size:16px;}
+
+  /* ===== Features ===== */
+  .features{background:var(--bg-alt);}
+  .feature-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .feature-card{
+    background:var(--card); border-radius:var(--radius); padding:30px 26px; box-shadow:var(--shadow);
+  }
+  .feature-icon{width:40px; height:40px; margin-bottom:16px; color:var(--sage-deep);}
+  .feature-card h3{font-size:19px; margin-bottom:8px;}
+  .feature-card p{color:var(--ink-soft); font-size:14.5px; margin:0;}
+
+  /* ===== Catalog ===== */
+  .cat-pills{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:36px;}
+  .cat-pill{
+    padding:9px 18px; border-radius:100px; border:1px solid var(--line); background:var(--card);
+    font-size:14px; font-weight:500; color:var(--ink-soft); position:relative;
+  }
+  .cat-pill.active{background:var(--sage-deep); color:#fff; border-color:var(--sage-deep);}
+  .cat-pill .cat-del{
+    display:none; margin-left:8px; color:inherit; opacity:.7; background:none; border:none; font-size:13px;
+  }
+  body.admin-on .cat-pill .cat-del{display:inline;}
+  .cat-add{
+    padding:9px 16px; border-radius:100px; border:1px dashed var(--sage); background:transparent; color:var(--sage-deep); font-size:14px;
+  }
+  .plant-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:30px;}
+  .plant-card{
+    background:var(--card); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow);
+    display:flex; flex-direction:column; position:relative;
+  }
+  .plant-photo{
+    height:250px; background:var(--mint-pale); background-size:cover; background-position:center;
+    display:flex; align-items:center; justify-content:center; color:var(--sage-deep); font-size:13px;
+  }
+  .plant-body{padding:22px 22px 26px; display:flex; flex-direction:column; gap:8px; flex:1;}
+  .plant-name{font-size:20px;}
+  .plant-desc{font-size:14px; color:var(--ink-soft); flex:1;}
+  .plant-stock{font-size:12.5px; color:var(--sage-deep); font-weight:500;}
+  .plant-price-row{margin:6px 0 14px;}
+  .plant-price{font-family:'Fraunces',serif; font-size:30px; font-weight:600; color:var(--ink);}
+  .plant-admin-row{display:flex; gap:6px; position:absolute; top:10px; right:10px; z-index:2;}
+  .mini-icon-btn{
+    display:none; background:rgba(255,255,255,0.9); border:none; width:28px; height:28px; border-radius:50%;
+    align-items:center; justify-content:center; font-size:13px; box-shadow:0 2px 6px rgba(0,0,0,.15);
+  }
+  body.admin-on .mini-icon-btn{display:flex;}
+  .empty-state{
+    grid-column:1/-1; text-align:center; padding:50px 20px; color:var(--ink-soft); border:1px dashed var(--line); border-radius:var(--radius);
+  }
+  .empty-state h3{margin-bottom:8px; color:var(--ink);}
+
+  /* ===== Service / composition ===== */
+  .service{background:var(--sage-deep); color:#fff; border-radius:36px; margin:0 28px; max-width:1104px; margin-left:auto; margin-right:auto;}
+  .service-inner{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; padding:56px 56px;}
+  .service h2{color:#fff; font-size:30px;}
+  .service p{color:#E7EEE1; margin-top:14px; font-size:15.5px;}
+  .service-art{
+    height:220px; border-radius:24px; background:rgba(255,255,255,0.08);
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* ===== Blog / channel ===== */
+  .blog-card{
+    background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+    display:flex; align-items:center; gap:36px; padding:40px 44px;
+  }
+  .blog-icon{
+    width:70px; height:70px; border-radius:50%; background:var(--mint-pale); color:var(--sage-deep);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .blog-card h3{font-size:22px; margin-bottom:6px;}
+  .blog-card p{color:var(--ink-soft); font-size:15px; margin:0 0 14px;}
+
+  /* ===== Footer ===== */
+  footer{border-top:1px solid var(--line); padding:44px 0 30px; margin-top:20px;}
+  .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:30px;}
+  footer h4{font-size:15px; margin-bottom:12px;}
+  footer p, footer a{font-size:14px; color:var(--ink-soft); text-decoration:none;}
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center; margin-top:34px; padding-top:20px;
+    border-top:1px solid var(--line); font-size:12.5px; color:var(--ink-soft); flex-wrap:wrap; gap:10px;
+  }
+  .admin-toggle{background:none; border:1px solid var(--line); border-radius:100px; padding:6px 14px; font-size:12.5px; color:var(--ink-soft); display:flex; align-items:center; gap:6px;}
+  .admin-toggle.on{background:var(--sage-deep); color:#fff; border-color:var(--sage-deep);}
+
+  .detail-gallery{position:relative; height:340px; border-radius:16px; overflow:hidden; background:var(--mint-pale); margin-bottom:18px;}
+  .detail-gallery img{width:100%; height:100%; object-fit:contain; object-position:center;}
+
+  /* ===== Modal / drawer ===== */
+  .overlay{
+    position:fixed; inset:0; background:rgba(46,53,39,0.35); z-index:100; display:none;
+    align-items:center; justify-content:center; padding:20px;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:#fff; border-radius:20px; max-width:480px; width:100%; max-height:88vh; overflow-y:auto;
+    padding:30px; position:relative; box-shadow:0 20px 60px rgba(0,0,0,0.25);
+  }
+  .modal.wide{max-width:640px;}
+  .modal-close{position:absolute; top:16px; right:16px; background:var(--bg-alt); border:none; width:30px; height:30px; border-radius:50%;}
+  .modal h3{font-size:22px; margin-bottom:18px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:13px; font-weight:500; margin-bottom:6px; color:var(--ink-soft);}
+  .field input, .field textarea, .field select{
+    width:100%; padding:11px 14px; border-radius:10px; border:1px solid var(--line); font-family:inherit; font-size:14.5px; background:var(--bg);
+  }
+  .field textarea{resize:vertical; min-height:70px;}
+  .field-row{display:flex; gap:12px;}
+  .field-row .field{flex:1;}
+  .cart-drawer{
+    position:fixed; top:0; right:0; height:100%; width:100%; max-width:400px; background:#fff; z-index:110;
+    transform:translateX(100%); transition:transform .25s ease; box-shadow:-10px 0 40px rgba(0,0,0,0.15);
+    display:flex; flex-direction:column;
+  }
+  .cart-drawer.open{transform:translateX(0);}
+  .cart-header{padding:22px 24px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;}
+  .cart-items{flex:1; overflow-y:auto; padding:16px 24px;}
+  .cart-item{display:flex; gap:12px; padding:14px 0; border-bottom:1px solid var(--bg-alt);}
+  .cart-item img{width:64px; height:64px; object-fit:cover; border-radius:10px; background:var(--mint-pale);}
+  .cart-item-info{flex:1;}
+  .qty-row{display:flex; align-items:center; gap:10px; margin-top:6px;}
+  .qty-btn{width:24px; height:24px; border-radius:50%; border:1px solid var(--line); background:#fff;}
+  .cart-footer{padding:20px 24px; border-top:1px solid var(--line);}
+  .cart-total-row{display:flex; justify-content:space-between; font-size:16px; margin-bottom:14px;}
+  .order-list-item{padding:12px 0; border-bottom:1px solid var(--bg-alt); font-size:14px;}
+  .tab-row{display:flex; gap:8px; margin-bottom:20px; border-bottom:1px solid var(--line);}
+  .tab-btn{padding:10px 4px; background:none; border:none; border-bottom:2px solid transparent; color:var(--ink-soft); font-size:14px; margin-right:18px;}
+  .tab-btn.active{color:var(--ink); border-color:var(--sage-deep); font-weight:500;}
+  .hint{font-size:12.5px; color:var(--ink-soft); margin-top:4px;}
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--ink); color:#fff;
+    padding:12px 22px; border-radius:100px; font-size:14px; z-index:200; opacity:0; transition:all .25s;
+    pointer-events:none; text-align:center; max-width:90vw;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  @media(max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-art{height:260px;}
+    .hero-carousel{height:260px;}
+    .feature-grid{grid-template-columns:1fr;}
+    .service-inner{grid-template-columns:1fr; padding:36px 26px;}
+    .footer-grid{grid-template-columns:1fr; gap:22px;}
+    .blog-card{flex-direction:column; text-align:center; padding:32px 24px;}
+    nav.main-nav{display:none;}
+    .hero h1{font-size:36px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand" data-editable data-field="storeName">
+      <svg class="brand-leaf" viewBox="0 0 24 24" fill="none"><path d="M12 2C7 2 3 6 3 12c0 5 4 9 9 9 0-6 0-10-4-14 4 1 8 4 8 9 5 0 5-16-4-14z" fill="#7C9473"/></svg>
+      <span class="brand-name display" id="txt-storeName">Название магазина</span>
+      <button class="edit-pencil" onclick="openTextEditor('storeName','Название магазина')">✎</button>
+    </div>
+    <nav class="main-nav">
+      <a href="#about">О нас</a>
+      <a href="#catalog">Каталог</a>
+      <a href="#service">Клумбы</a>
+      <a href="#blog">Блог</a>
+    </nav>
+    <div class="header-icons">
+      <button class="icon-btn" title="Аккаунт" onclick="openAccount()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+      </button>
+      <button class="icon-btn" title="Корзина" onclick="openCart()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 4h2l2.4 12.2a2 2 0 0 0 2 1.8h7.2a2 2 0 0 0 2-1.6L20 8H6"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg>
+        <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
+      </button>
+      <button class="icon-btn" title="Режим владельца" id="adminIconBtn" onclick="onAdminIconClick()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Растения, которые можно увидеть своими глазами</div>
+      <h1 style="margin-top:14px;" data-editable data-field="heroTitle">
+        <span id="txt-heroTitle">Заголовок о вашем магазине растений</span>
+        <button class="edit-pencil" onclick="openTextEditor('heroTitle','Заголовок')">✎</button>
+      </h1>
+      <p class="lead" data-editable data-field="heroLead">
+        <span id="txt-heroLead">Короткий текст о том, чем особенен ваш магазин — например, что все растения растут у вас лично и их можно посмотреть вживую перед покупкой.</span>
+        <button class="edit-pencil" onclick="openTextEditor('heroLead','Текст под заголовком')">✎</button>
+      </p>
+      <div class="hero-actions">
+        <a href="#catalog" class="btn btn-primary">Смотреть каталог</a>
+        <a href="#about" class="btn btn-outline">О магазине</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <div class="hero-carousel" id="heroCarousel">
+        <div class="carousel-slide">
+          <img id="carouselImg" src="" alt="Фото сада" style="display:none;">
+          <span id="carouselEmptyText"></span>
+        </div>
+        <button class="carousel-arrow arrow-left" onclick="prevSlide()" aria-label="Предыдущее фото">‹</button>
+        <button class="carousel-arrow arrow-right" onclick="nextSlide()" aria-label="Следующее фото">›</button>
+        <div class="carousel-dots" id="carouselDots"></div>
+        <button class="edit-pencil carousel-edit-btn" onclick="openCarouselEditor()">✎</button>
+      </div>
+      <div class="hero-tag">выросло у нас 🌿</div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">О магазине</div>
+      <h2 data-editable data-field="aboutTitle">
+        <span id="txt-aboutTitle">Немного о нас</span>
+        <button class="edit-pencil" onclick="openTextEditor('aboutTitle','Заголовок блока «О нас»')">✎</button>
+      </h2>
+      <p data-editable data-field="aboutText">
+        <span id="txt-aboutText">Расскажите здесь историю магазина: как давно вы выращиваете растения, что для вас особенно важно в этом деле, и почему покупателям стоит выбрать именно вас.</span>
+        <button class="edit-pencil" onclick="openTextEditor('aboutText','Текст о магазине')">✎</button>
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="wrap">
+    <div class="feature-grid" id="featureGrid"></div>
+  </div>
+</section>
+
+<section id="catalog">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Каталог</div>
+      <h2>Растения по категориям</h2>
+      <p>Все растения выращены у нас — можно приехать и увидеть их размер, форму и цветение вживую.</p>
+    </div>
+    <div class="cat-pills" id="catPills"></div>
+    <div class="plant-grid" id="plantGrid"></div>
+  </div>
+</section>
+
+<section id="service">
+  <div class="wrap">
+    <div class="service">
+      <div class="service-inner">
+        <div>
+          <div class="eyebrow" style="color:#CFE0C7;">Дополнительно</div>
+          <h2 style="margin-top:10px;" data-editable data-field="serviceTitle">
+            <span id="txt-serviceTitle">Поможем оформить клумбу</span>
+            <button class="edit-pencil" onclick="openTextEditor('serviceTitle','Заголовок услуги')">✎</button>
+          </h2>
+          <p data-editable data-field="serviceText">
+            <span id="txt-serviceText">Подберём растения под ваш участок и составим композицию — с учётом освещения, размера клумбы и того, как растения будут выглядеть вместе через сезон.</span>
+            <button class="edit-pencil" onclick="openTextEditor('serviceText','Текст услуги')">✎</button>
+          </p>
+          <div class="hero-actions" style="margin-top:18px;">
+            <button class="btn btn-primary" onclick="openConsultation()">Оставить заявку</button>
+          </div>
+        </div>
+        <div class="service-art">
+          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" opacity="0.8"><path d="M12 21V9M12 9c0-3-2-5-5-5 0 3 2 5 5 5zm0 0c0-3 2-5 5-5 0 3-2 5-5 5z"/><circle cx="12" cy="21" r="1"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="blog">
+  <div class="wrap">
+    <div class="blog-card">
+      <div class="blog-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 3 3 10l6 3 2 6 3-4 4 5 3-17Z"/></svg>
+      </div>
+      <div style="flex:1;">
+        <h3 data-editable data-field="blogTitle">
+          <span id="txt-blogTitle">Мы ведём канал о растениях</span>
+          <button class="edit-pencil" onclick="openTextEditor('blogTitle','Заголовок блока блога')">✎</button>
+        </h3>
+        <p data-editable data-field="blogText">
+          <span id="txt-blogText">Рассказываем об уходе, показываем, как растения цветут у нас, и делимся новыми поступлениями.</span>
+          <button class="edit-pencil" onclick="openTextEditor('blogText','Текст о канале')">✎</button>
+        </p>
+        <a id="blogLinkBtn" class="btn btn-outline btn-sm" href="#" target="_blank" rel="noopener">Перейти в канал</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h4>Магазин растений</h4>
+        <p data-editable data-field="footerAbout">
+          <span id="txt-footerAbout">Продажа растений частным лицом. Все растения можно увидеть вживую.</span>
+          <button class="edit-pencil" onclick="openTextEditor('footerAbout','Короткое описание в подвале')">✎</button>
+        </p>
+      </div>
+      <div data-editable data-field="contactInfo">
+        <h4>Контакты</h4>
+        <p id="txt-contactInfo">Адрес / телефон / соцсети</p>
+        <button class="edit-pencil" onclick="openTextEditor('contactInfo','Контактная информация')">✎</button>
+      </div>
+      <div>
+        <h4>Навигация</h4>
+        <p><a href="#catalog">Каталог</a></p>
+        <p><a href="#service">Оформление клумбы</a></p>
+        <p><a href="#blog">Блог о растениях</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="yearNow"></span> <span class="footer-store-name">Магазин растений</span></span>
+      <button class="admin-toggle" id="adminToggleBtn" onclick="onFooterAdminToggle()">🔒 Режим владельца</button>
+    </div>
+  </div>
+</footer>
+
+<div class="overlay" id="cartOverlay">
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3 style="margin:0;">Корзина</h3>
+      <button class="modal-close" onclick="closeCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItemsWrap"></div>
+    <div class="cart-footer">
+      <div class="cart-total-row"><span>Итого</span><strong id="cartTotal">0 ₽</strong></div>
+      <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="openCheckout()">Оформить заказ</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="checkoutOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('checkoutOverlay')">✕</button>
+    <h3>Оформление заказа</h3>
+    <div class="field"><label>Ваше имя</label><input id="checkoutName" placeholder="Как к вам обращаться"></div>
+    <div class="field"><label>Телефон</label><input id="checkoutPhone" placeholder="+7 ..."></div>
+    <div class="field"><label>Комментарий (необязательно)</label><textarea id="checkoutComment" placeholder="Способ получения, удобное время и т.п."></textarea></div>
+    <p class="hint" id="checkoutMethodHint"></p>
+    <button class="btn btn-primary" style="width:100%; justify-content:center; margin-top:10px;" onclick="submitOrder()">Отправить заявку продавцу</button>
+  </div>
+</div>
+
+<div class="overlay" id="accountOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('accountOverlay')">✕</button>
+    <h3>Аккаунт покупателя</h3>
+    <div class="field"><label>Имя</label><input id="accName" placeholder="Ваше имя"></div>
+    <div class="field"><label>Телефон</label><input id="accPhone" placeholder="+7 ..."></div>
+    <button class="btn btn-primary btn-sm" onclick="saveAccount()">Сохранить</button>
+    <h3 style="margin-top:28px;">История заказов</h3>
+    <div id="orderHistory"><p class="hint">Заказов пока нет.</p></div>
+  </div>
+</div>
+
+<div class="overlay" id="pinOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('pinOverlay')">✕</button>
+    <h3>Режим владельца</h3>
+    <div class="field"><label>PIN-код</label><input id="pinInput" type="password" placeholder="••••"></div>
+    <p class="hint">По умолчанию: 1234. Изменить можно в настройках после входа.</p>
+    <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="checkPin()">Войти</button>
+  </div>
+</div>
+
+<div class="overlay" id="settingsOverlay">
+  <div class="modal wide">
+    <button class="modal-close" onclick="closeModal('settingsOverlay')">✕</button>
+    <h3>Настройки магазина</h3>
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="switchSettingsTab('orders',this)">Приём заявок</button>
+      <button class="tab-btn" onclick="switchSettingsTab('security',this)">Доступ</button>
+    </div>
+    <div id="settingsTab-orders">
+      <div class="field"><label>Email продавца (куда приходят заявки)</label><input id="orderEmailInput" placeholder="example@mail.ru"></div>
+      <p class="hint" style="margin-top:-8px;">Этот адрес используется и для заказов из корзины, и для заявок на оформление клумбы.</p>
+
+      <h3 style="margin-top:22px; font-size:16px;">Автоматическая отправка писем (EmailJS)</h3>
+      <p class="hint" style="margin-top:-4px;">Чтобы заявки уходили сразу с сайта без открытия почтовых программ у покупателя, нужно один раз подключить бесплатный сервис EmailJS — подробная инструкция ниже в чате. Сюда вставьте три значения из своего аккаунта EmailJS:</p>
+      <div class="field"><label>Public Key</label><input id="emailjsPublicKeyInput" placeholder="например: A1b2C3d4E5f6"></div>
+      <div class="field"><label>Service ID</label><input id="emailjsServiceIdInput" placeholder="например: service_xxxxx"></div>
+      <div class="field"><label>Template ID</label><input id="emailjsTemplateIdInput" placeholder="например: template_xxxxx"></div>
+      <button class="btn btn-primary btn-sm" onclick="saveOrderSettings()">Сохранить</button>
+
+      <h3 style="margin-top:26px; font-size:17px;">Канал / блог</h3>
+      <div class="field"><label>Ссылка на канал или группу</label><input id="blogLinkInput" placeholder="https://..."></div>
+      <button class="btn btn-primary btn-sm" onclick="saveBlogLink()">Сохранить</button>
+    </div>
+    <div id="settingsTab-security" style="display:none;">
+      <div class="field"><label>Новый PIN-код для входа в режим владельца</label><input id="newPinInput" placeholder="4 и более символов"></div>
+      <button class="btn btn-primary btn-sm" onclick="savePin()">Сохранить PIN</button>
+
+      <h3 style="margin-top:26px; font-size:16px;">Сохранение изменений на GitHub</h3>
+      <p class="hint" style="margin-top:-4px;">Вставьте сюда персональный токен GitHub — без него изменения каталога будут видны только в вашем браузере.</p>
+      <div class="field"><label>GitHub Personal Access Token</label><input id="githubTokenInput" type="password" placeholder="ghp_..."></div>
+      <button class="btn btn-primary btn-sm" onclick="saveGithubTokenSetting()">Сохранить токен</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="categoryOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('categoryOverlay')">✕</button>
+    <h3 id="categoryModalTitle">Новая категория</h3>
+    <div class="field"><label>Название категории</label><input id="categoryNameInput" placeholder="Например: Суккуленты"></div>
+    <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="saveCategory()">Сохранить</button>
+  </div>
+</div>
+
+<div class="overlay" id="plantOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('plantOverlay')">✕</button>
+    <h3 id="plantModalTitle">Новое растение</h3>
+    <div class="field"><label>Категория</label><select id="plantCategorySelect"></select></div>
+    <div class="field"><label>Название растения</label><input id="plantNameInput" placeholder="Например: Монстера Деликатесная"></div>
+    <div class="field"><label>Фото 1</label><input id="plantPhotoInput0" placeholder="https://..."></div>
+    <div class="field"><label>Фото 2 (необязательно)</label><input id="plantPhotoInput1" placeholder="https://..."></div>
+    <div class="field"><label>Фото 3 (необязательно)</label><input id="plantPhotoInput2" placeholder="https://..."></div>
+    <div class="field"><label>Фото 4 (необязательно)</label><input id="plantPhotoInput3" placeholder="https://..."></div>
+    <p class="hint" style="margin-top:-10px; margin-bottom:14px;">Загрузите фото на любой хостинг картинок (например, Яндекс.Диск, Google-фото, imgur) и вставьте сюда ссылки. Можно указать от 1 до 4 фото — в карточке товара будет ровно столько, сколько вы заполните.</p>
+    <div class="field"><label>Краткое описание (для карточки в каталоге)</label><textarea id="plantDescInput" placeholder="Размер, особенности, цветение"></textarea></div>
+    <div class="field"><label>Подробное описание (показывается в увеличенном виде товара)</label><textarea id="plantDescFullInput" placeholder="Можно рассказать подробнее: происхождение, условия ухода, размер горшка и т.п."></textarea></div>
+    <div class="field"><label>Количество в наличии, шт</label><input id="plantStockInput" type="number" placeholder="5"></div>
+    <div class="field"><label>Цена, ₽</label><input id="plantPriceInput" type="number" placeholder="1500"></div>
+    <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="savePlant()">Сохранить</button>
+  </div>
+</div>
+
+<div class="overlay" id="plantDetailOverlay">
+  <div class="modal wide">
+    <button class="modal-close" onclick="closeModal('plantDetailOverlay')">✕</button>
+    <div class="detail-gallery">
+      <img id="detailImg" src="" alt="Фото растения">
+      <button class="carousel-arrow arrow-left" onclick="detailPrev()" aria-label="Предыдущее фото">‹</button>
+      <button class="carousel-arrow arrow-right" onclick="detailNext()" aria-label="Следующее фото">›</button>
+      <div class="carousel-dots" id="detailDots"></div>
+    </div>
+    <h3 id="detailName"></h3>
+    <p id="detailDesc" style="color:var(--ink-soft); font-size:14.5px; margin:10px 0 14px;"></p>
+    <div id="detailStock" class="plant-stock" style="margin-bottom:10px;"></div>
+    <div class="plant-price-row"><span class="plant-price" id="detailPrice"></span></div>
+    <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="addToCartFromDetail()">Добавить в корзину</button>
+  </div>
+</div>
+
+<div class="overlay" id="carouselOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('carouselOverlay')">✕</button>
+    <h3>Фото сада на главной</h3>
+    <div class="field"><label>Фото 1</label><input id="carouselInput0" placeholder="https://..."></div>
+    <div class="field"><label>Фото 2</label><input id="carouselInput1" placeholder="https://..."></div>
+    <div class="field"><label>Фото 3</label><input id="carouselInput2" placeholder="https://..."></div>
+    <div class="field"><label>Фото 4</label><input id="carouselInput3" placeholder="https://..."></div>
+    <p class="hint" style="margin-top:-8px;">Загрузите фото на любой хостинг картинок и вставьте ссылки. Можно заполнить не все четыре.</p>
+    <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="saveCarouselPhotos()">Сохранить</button>
+  </div>
+</div>
+
+<div class="overlay" id="consultationOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('consultationOverlay')">✕</button>
+    <h3>Заявка на оформление клумбы</h3>
+    <div class="field"><label>Имя (и фамилия, если хотите)</label><input id="consName" placeholder="Например: Анна или Анна Иванова"></div>
+    <div class="field"><label>Что хотите сделать с клумбой</label><textarea id="consGoal" placeholder="Например: оформить клумбу у входа 3×2 метра, солнечная сторона"></textarea></div>
+    <div class="field"><label>Какие растения уже растут (необязательно)</label><textarea id="consExisting" placeholder="Если на участке уже что-то растёт"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Телефон</label><input id="consPhone" placeholder="+7 ..."></div>
+      <div class="field"><label>Удобно писать</label>
+        <select id="consContactWay">
+          <option value="Телефон">Телефон</option>
+          <option value="ВКонтакте">ВКонтакте</option>
+          <option value="Макс">Макс</option>
+          <option value="Почта">Почта</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="submitConsultation()">Отправить заявку</button>
+  </div>
+</div>
+
+<div class="overlay" id="sendResultOverlay">
+  <div class="modal" style="max-width:380px; text-align:center;">
+    <div style="width:52px; height:52px; border-radius:50%; background:var(--mint-pale); color:var(--sage-deep); display:flex; align-items:center; justify-content:center; margin:0 auto 16px;">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+    </div>
+    <h3 style="margin-bottom:10px;">Заявка отправлена</h3>
+    <p class="hint" style="font-size:14px; margin-bottom:20px;">Продавец свяжется с вами в течение суток.</p>
+    <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="closeModal('sendResultOverlay')">Хорошо</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== Where the shared catalog/settings actually live =====
+   Public reads: the site just fetches data.json next to itself (fast, no auth, works for every visitor).
+   Admin writes: when you save something in admin mode, the site updates data.json on GitHub
+   using a personal access token that YOU paste into Settings — it stays only in your own browser. */
+const GITHUB_OWNER = 'Nataly-rastenia';
+const GITHUB_REPO = 'Nataly-rastenia.github.io';
+const GITHUB_BRANCH = 'main';
+const DATA_FILE_PATH = 'data.json';
+
+function getGithubToken(){ return localStorage.getItem('gh_token') || ''; }
+function setGithubToken(v){ localStorage.setItem('gh_token', v || ''); }
+
+function utf8ToBase64(str){ return btoa(unescape(encodeURIComponent(str))); }
+
+let sharedData = { content:{}, categories:[], plants:[] };
+
+async function loadSharedData(){
+  try{
+    const res = await fetch('./'+DATA_FILE_PATH+'?t='+Date.now());
+    if(res.ok){ sharedData = await res.json(); }
+  }catch(e){ console.error('Не удалось загрузить data.json', e); }
+  sharedData.content = sharedData.content || {};
+  sharedData.categories = sharedData.categories || [];
+  sharedData.plants = sharedData.plants || [];
+}
+
+async function saveSharedDataToGithub(){
+  const token = getGithubToken();
+  if(!token){
+    showToast('Сохранено у вас в браузере. Чтобы изменения увидели все посетители, добавьте GitHub-токен в Настройках.');
+    return;
+  }
+  const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${DATA_FILE_PATH}`;
+  try{
+    const getRes = await fetch(apiUrl, { headers:{ Authorization:'token '+token, Accept:'application/vnd.github+json' }});
+    const getJson = await getRes.json();
+    if(!getRes.ok){ throw new Error(getJson.message||'read failed'); }
+    const putRes = await fetch(apiUrl, {
+      method:'PUT',
+      headers:{ Authorization:'token '+token, Accept:'application/vnd.github+json', 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        message: 'Обновление сайта',
+        content: utf8ToBase64(JSON.stringify(sharedData, null, 2)),
+        sha: getJson.sha,
+        branch: GITHUB_BRANCH
+      })
+    });
+    const putJson = await putRes.json();
+    if(!putRes.ok){ throw new Error(putJson.message||'write failed'); }
+    showToast('Сохранено — у остальных посетителей появится в течение пары минут');
+  }catch(e){
+    console.error('GitHub save failed', e);
+    showToast('Не получилось сохранить на GitHub. Проверьте токен в Настройках → Доступ.');
+  }
+}
+
+async function getShared(key, fallback){
+  if(key==='site-content') return sharedData.content || fallback;
+  if(key==='categories') return sharedData.categories || fallback;
+  if(key==='plants') return sharedData.plants || fallback;
+  return fallback;
+}
+async function setShared(key, value){
+  if(key==='site-content') sharedData.content = value;
+  if(key==='categories') sharedData.categories = value;
+  if(key==='plants') sharedData.plants = value;
+  await saveSharedDataToGithub();
+}
+async function getPersonal(key, fallback){
+  try{ const v = localStorage.getItem('site_'+key); return v ? JSON.parse(v) : fallback; }
+  catch(e){ return fallback; }
+}
+async function setPersonal(key, value){
+  try{ localStorage.setItem('site_'+key, JSON.stringify(value)); }catch(e){}
+}
+
+let content = {};
+let categories = [];
+let plants = [];
+let cart = [];
+let account = {name:'', phone:''};
+let orders = [];
+let activeCategory = 'all';
+let isAdmin = false;
+let editingCategoryId = null;
+let editingPlantId = null;
+let carouselIndex = 0;
+let detailPlantId = null;
+let detailIndex = 0;
+
+const defaultContent = {
+  storeName: 'У нас в саду',
+  heroTitle: 'Заголовок о вашем магазине растений',
+  heroLead: 'Короткий текст о том, чем особенен ваш магазин — например, что все растения растут у вас лично и их можно посмотреть вживую перед покупкой.',
+  aboutTitle: 'Немного о нас',
+  aboutText: 'Расскажите здесь историю магазина: как давно вы выращиваете растения, что для вас особенно важно в этом деле, и почему покупателям стоит выбрать именно вас.',
+  serviceTitle: 'Поможем оформить клумбу',
+  serviceText: 'Подберём растения под ваш участок и составим композицию — с учётом освещения, размера клумбы и того, как растения будут выглядеть вместе через сезон.',
+  blogTitle: 'Мы ведём канал о растениях',
+  blogText: 'Рассказываем об уходе, показываем, как растения цветут у нас, и делимся новыми поступлениями.',
+  blogLink: 'https://max.ru/join/t5Pq9Ma9SvqBIS3axnOgvsJFyCPckj0kLgp_qaL-fxI',
+  footerAbout: 'Продажа растений частным лицом. Все растения можно увидеть вживую.',
+  contactInfo: 'Адрес / телефон / соцсети',
+  adminPin: '1234',
+  orderEmail: 'rastenia_love@mail.ru',
+  emailjsPublicKey: '',
+  emailjsServiceId: '',
+  emailjsTemplateId: '',
+  heroPhotos: ['','','',''],
+  features: [
+    {icon:'leaf', title:'Растёт у нас', text:'Продаём только то, что выращено на нашем участке — без перекупки.'},
+    {icon:'eye', title:'Можно увидеть вживую', text:'Приезжайте и посмотрите на размер, форму и цветение перед покупкой.'},
+    {icon:'compass', title:'Поможем с композицией', text:'Подскажем, как подобрать растения для клумбы или сада.'}
+  ]
+};
+
+const icons = {
+  leaf: '<path d="M12 2C7 2 3 6 3 12c0 5 4 9 9 9 0-6 0-10-4-14 4 1 8 4 8 9 5 0 5-16-4-14z"/>',
+  eye: '<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/>',
+  compass: '<circle cx="12" cy="12" r="9"/><path d="m14.5 9.5-2 5-5 2 2-5z"/>'
+};
+
+async function init(){
+  document.getElementById('yearNow').textContent = new Date().getFullYear();
+  await loadSharedData();
+  content = Object.assign({}, defaultContent, sharedData.content || {});
+  categories = sharedData.categories || [];
+  plants = sharedData.plants || [];
+  cart = await getPersonal('cart', []);
+  account = await getPersonal('account', {name:'', phone:''});
+  orders = await getPersonal('orders', []);
+
+  await maybeSeedSampleData();
+
+  renderContent();
+  renderFeatures();
+  renderCategories();
+  renderPlants();
+  renderCarousel();
+  updateCartBadge();
+}
+
+async function maybeSeedSampleData(){
+  if(categories.length===0 && plants.length===0){
+    categories = [{id:'c-sample', name:'Комнатные растения'}];
+    plants = [
+      {id:'p-sample-1', categoryId:'c-sample', name:'Монстера Деликатесная', photos:['https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80'], photoUrl:'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80', desc:'Крупные резные листья, высота около 60 см.', descFull:'Крупные резные листья, высота около 60 см, растение уже сформировано и хорошо ветвится. Любит яркий рассеянный свет и умеренный полив — даём просохнуть верхнему слою почвы между поливами.', stock:3, price:2200},
+      {id:'p-sample-2', categoryId:'c-sample', name:'Эхеверия', photos:['https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=800&q=80'], photoUrl:'https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=800&q=80', desc:'Компактный суккулент розеткой.', descFull:'Компактный суккулент розеткой, неприхотлив в уходе, подойдёт для солнечного подоконника. Полив редкий, важно не заливать — лишняя влага для этого растения опаснее засухи.', stock:7, price:450},
+      {id:'p-sample-3', categoryId:'c-sample', name:'Фикус Лировидный', photos:['https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80'], photoUrl:'https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80', desc:'Крупное растение для просторной комнаты.', descFull:'Крупное растение для просторной комнаты, любит яркий рассеянный свет и не переносит частых перестановок. Взрослый экземпляр, хорошо разветвлён.', stock:2, price:3400}
+    ];
+    await setShared('categories', categories);
+    await setShared('plants', plants);
+  }
+}
+
+function renderContent(){
+  setText('storeName', content.storeName);
+  document.querySelectorAll('.footer-store-name').forEach(el=>el.textContent = content.storeName);
+  setText('heroTitle', content.heroTitle);
+  setText('heroLead', content.heroLead);
+  setText('aboutTitle', content.aboutTitle);
+  setText('aboutText', content.aboutText);
+  setText('serviceTitle', content.serviceTitle);
+  setText('serviceText', content.serviceText);
+  setText('blogTitle', content.blogTitle);
+  setText('blogText', content.blogText);
+  setText('footerAbout', content.footerAbout);
+  setText('contactInfo', content.contactInfo);
+  const blogBtn = document.getElementById('blogLinkBtn');
+  if(content.blogLink){ blogBtn.href = content.blogLink; blogBtn.style.display='inline-flex'; }
+  else{ blogBtn.style.display = 'none'; blogBtn.href='#'; }
+}
+function setText(field, value){
+  const el = document.getElementById('txt-'+field);
+  if(el) el.textContent = value;
+}
+
+function renderFeatures(){
+  const wrap = document.getElementById('featureGrid');
+  wrap.innerHTML = content.features.map((f,i)=>`
+    <div class="feature-card" data-editable>
+      <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">${icons[f.icon]||icons.leaf}</svg>
+      <h3>${escapeHtml(f.title)}</h3>
+      <p>${escapeHtml(f.text)}</p>
+      <button class="edit-pencil" onclick="editFeature(${i})">✎</button>
+    </div>
+  `).join('');
+}
+function editFeature(i){
+  const f = content.features[i];
+  const title = prompt('Заголовок преимущества:', f.title);
+  if(title===null) return;
+  const text = prompt('Текст:', f.text);
+  if(text===null) return;
+  content.features[i] = {...f, title, text};
+  setShared('site-content', content);
+  renderFeatures();
+}
+
+function openTextEditor(field, label){
+  if(!isAdmin){ return; }
+  const current = content[field] || '';
+  const val = prompt(label + ':', current);
+  if(val===null) return;
+  content[field] = val;
+  setShared('site-content', content);
+  renderContent();
+  showToast('Сохранено');
+}
+
+function renderCarousel(){
+  const photos = (content.heroPhotos||[]).filter(Boolean);
+  const img = document.getElementById('carouselImg');
+  const emptyText = document.getElementById('carouselEmptyText');
+  const dotsWrap = document.getElementById('carouselDots');
+  const arrows = document.querySelectorAll('.carousel-arrow');
+  if(photos.length===0){
+    img.style.display = 'none';
+    img.src = '';
+    emptyText.textContent = isAdmin ? 'Добавьте фото сада — нажмите ✎' : '';
+    dotsWrap.innerHTML='';
+    arrows.forEach(a=>a.style.display='none');
+    return;
+  }
+  if(carouselIndex>=photos.length) carouselIndex=0;
+  img.src = photos[carouselIndex];
+  img.style.display = 'block';
+  emptyText.textContent='';
+  arrows.forEach(a=>a.style.display = photos.length>1 ? 'flex':'none');
+  dotsWrap.innerHTML = photos.length>1 ? photos.map((_,i)=>`<button class="carousel-dot ${i===carouselIndex?'active':''}" onclick="goSlide(${i})"></button>`).join('') : '';
+}
+function nextSlide(){ const photos=(content.heroPhotos||[]).filter(Boolean); if(photos.length<2)return; carouselIndex=(carouselIndex+1)%photos.length; renderCarousel(); }
+function prevSlide(){ const photos=(content.heroPhotos||[]).filter(Boolean); if(photos.length<2)return; carouselIndex=(carouselIndex-1+photos.length)%photos.length; renderCarousel(); }
+function goSlide(i){ carouselIndex=i; renderCarousel(); }
+function openCarouselEditor(){
+  if(!isAdmin) return;
+  const photos = (content.heroPhotos && content.heroPhotos.length) ? content.heroPhotos : ['','','',''];
+  for(let i=0;i<4;i++) document.getElementById('carouselInput'+i).value = photos[i]||'';
+  openModal('carouselOverlay');
+}
+function saveCarouselPhotos(){
+  const photos=[];
+  for(let i=0;i<4;i++) photos.push(document.getElementById('carouselInput'+i).value.trim());
+  content.heroPhotos = photos;
+  setShared('site-content', content);
+  carouselIndex=0;
+  renderCarousel();
+  closeModal('carouselOverlay');
+  showToast('Фото сохранены');
+}
+
+function renderCategories(){
+  const wrap = document.getElementById('catPills');
+  let html = `<button class="cat-pill ${activeCategory==='all'?'active':''}" onclick="setActiveCategory('all')">Все</button>`;
+  html += categories.map(c=>`
+    <button class="cat-pill ${activeCategory===c.id?'active':''}" onclick="setActiveCategory('${c.id}')">
+      ${escapeHtml(c.name)}
+      <button class="cat-del" onclick="event.stopPropagation(); deleteCategory('${c.id}')" title="Удалить категорию">✕</button>
+    </button>
+  `).join('');
+  if(isAdmin){
+    html += `<button class="cat-add" onclick="openCategoryModal()">+ Добавить категорию</button>`;
+  }
+  wrap.innerHTML = html;
+}
+function setActiveCategory(id){ activeCategory = id; renderCategories(); renderPlants(); }
+function openCategoryModal(id){
+  editingCategoryId = id || null;
+  document.getElementById('categoryModalTitle').textContent = id ? 'Изменить категорию' : 'Новая категория';
+  document.getElementById('categoryNameInput').value = id ? (categories.find(c=>c.id===id)||{}).name || '' : '';
+  openModal('categoryOverlay');
+}
+function saveCategory(){
+  const name = document.getElementById('categoryNameInput').value.trim();
+  if(!name){ showToast('Введите название'); return; }
+  if(editingCategoryId){
+    const c = categories.find(c=>c.id===editingCategoryId);
+    if(c) c.name = name;
+  } else {
+    categories.push({id: 'c'+Date.now(), name});
+  }
+  setShared('categories', categories);
+  closeModal('categoryOverlay');
+  renderCategories();
+  renderPlantCategorySelect();
+  showToast('Категория сохранена');
+}
+function deleteCategory(id){
+  if(!confirm('Удалить категорию? Растения этой категории останутся без категории.')) return;
+  categories = categories.filter(c=>c.id!==id);
+  setShared('categories', categories);
+  if(activeCategory===id) activeCategory='all';
+  renderCategories();
+  renderPlants();
+}
+
+function renderPlants(){
+  const wrap = document.getElementById('plantGrid');
+  let list = plants.slice();
+  if(activeCategory!=='all') list = list.filter(p=>p.categoryId===activeCategory);
+
+  let html = '';
+  if(isAdmin){
+    html += `<div class="plant-card" style="align-items:center; justify-content:center; display:flex; min-height:320px; border:1px dashed var(--line); box-shadow:none; cursor:pointer;" onclick="openPlantModal()">
+      <span style="color:var(--sage-deep); font-weight:500;">+ Добавить растение</span>
+    </div>`;
+  }
+  if(list.length===0 && !isAdmin){
+    html += `<div class="empty-state"><h3>Пока здесь пусто</h3><p>Скоро здесь появятся растения этой категории.</p></div>`;
+  }
+  html += list.map(p=>{
+    const thumb = (p.photos && p.photos.length ? p.photos[0] : p.photoUrl) || '';
+    const photo = thumb ? `style="background-image:url('${escapeAttr(thumb)}')"` : '';
+    const stockLine = (p.stock!==undefined && p.stock!==null && p.stock!=='') ? `<div class="plant-stock">В наличии: ${p.stock} шт.</div>` : '';
+    return `
+    <div class="plant-card" onclick="openPlantDetail('${p.id}')" style="cursor:pointer;">
+      <div class="plant-admin-row">
+        <button class="mini-icon-btn" title="Изменить" onclick="event.stopPropagation(); openPlantModal('${p.id}')">✎</button>
+        <button class="mini-icon-btn" title="Удалить" onclick="event.stopPropagation(); deletePlant('${p.id}')">✕</button>
+      </div>
+      <div class="plant-photo" ${photo}>${thumb?'':'фото не добавлено'}</div>
+      <div class="plant-body">
+        <div class="plant-name">${escapeHtml(p.name)}</div>
+        <div class="plant-desc">${escapeHtml(p.desc||'')}</div>
+        ${stockLine}
+        <div class="plant-price-row"><span class="plant-price">${p.price?p.price+' ₽':'—'}</span></div>
+        <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="event.stopPropagation(); addToCart('${p.id}')">Добавить в корзину</button>
+      </div>
+    </div>`;
+  }).join('');
+  wrap.innerHTML = html;
+}
+function renderPlantCategorySelect(){
+  const sel = document.getElementById('plantCategorySelect');
+  sel.innerHTML = categories.map(c=>`<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('') || '<option value="">Сначала добавьте категорию</option>';
+}
+function openPlantModal(id){
+  renderPlantCategorySelect();
+  editingPlantId = id || null;
+  document.getElementById('plantModalTitle').textContent = id ? 'Изменить растение' : 'Новое растение';
+  if(id){
+    const p = plants.find(p=>p.id===id);
+    const photos = (p.photos && p.photos.length) ? p.photos : (p.photoUrl ? [p.photoUrl] : []);
+    document.getElementById('plantCategorySelect').value = p.categoryId||'';
+    document.getElementById('plantNameInput').value = p.name||'';
+    for(let i=0;i<4;i++) document.getElementById('plantPhotoInput'+i).value = photos[i]||'';
+    document.getElementById('plantDescInput').value = p.desc||'';
+    document.getElementById('plantDescFullInput').value = p.descFull||'';
+    document.getElementById('plantStockInput').value = (p.stock!==undefined && p.stock!==null) ? p.stock : '';
+    document.getElementById('plantPriceInput').value = p.price||'';
+  } else {
+    document.getElementById('plantNameInput').value = '';
+    for(let i=0;i<4;i++) document.getElementById('plantPhotoInput'+i).value = '';
+    document.getElementById('plantDescInput').value = '';
+    document.getElementById('plantDescFullInput').value = '';
+    document.getElementById('plantStockInput').value = '';
+    document.getElementById('plantPriceInput').value = '';
+  }
+  openModal('plantOverlay');
+}
+function savePlant(){
+  const name = document.getElementById('plantNameInput').value.trim();
+  if(!name){ showToast('Введите название растения'); return; }
+  const photos = [];
+  for(let i=0;i<4;i++){
+    const v = document.getElementById('plantPhotoInput'+i).value.trim();
+    if(v) photos.push(v);
+  }
+  const data = {
+    categoryId: document.getElementById('plantCategorySelect').value,
+    name,
+    photos,
+    photoUrl: photos[0]||'',
+    desc: document.getElementById('plantDescInput').value.trim(),
+    descFull: document.getElementById('plantDescFullInput').value.trim(),
+    stock: document.getElementById('plantStockInput').value===''? '' : Number(document.getElementById('plantStockInput').value),
+    price: Number(document.getElementById('plantPriceInput').value)||0
+  };
+  if(editingPlantId){
+    const p = plants.find(p=>p.id===editingPlantId);
+    Object.assign(p, data);
+  } else {
+    plants.push({id:'p'+Date.now(), ...data});
+  }
+  setShared('plants', plants);
+  closeModal('plantOverlay');
+  renderPlants();
+  showToast('Растение сохранено');
+}
+function deletePlant(id){
+  if(!confirm('Удалить это растение из каталога?')) return;
+  plants = plants.filter(p=>p.id!==id);
+  setShared('plants', plants);
+  renderPlants();
+}
+
+/* ================= Product detail modal ================= */
+function getDetailPhotos(){
+  const p = plants.find(x=>x.id===detailPlantId);
+  if(!p) return [];
+  const photos = (p.photos && p.photos.length) ? p.photos : (p.photoUrl ? [p.photoUrl] : []);
+  return photos.filter(Boolean);
+}
+function openPlantDetail(id){
+  const p = plants.find(x=>x.id===id);
+  if(!p) return;
+  detailPlantId = id;
+  detailIndex = 0;
+  document.getElementById('detailName').textContent = p.name;
+  document.getElementById('detailDesc').textContent = p.descFull || p.desc || '';
+  document.getElementById('detailStock').textContent = (p.stock!==undefined && p.stock!==null && p.stock!=='') ? 'В наличии: '+p.stock+' шт.' : '';
+  document.getElementById('detailPrice').textContent = p.price ? p.price+' ₽' : '—';
+  renderDetailGallery();
+  openModal('plantDetailOverlay');
+}
+function renderDetailGallery(){
+  const photos = getDetailPhotos();
+  const img = document.getElementById('detailImg');
+  const dotsWrap = document.getElementById('detailDots');
+  const arrows = document.querySelectorAll('#plantDetailOverlay .carousel-arrow');
+  if(photos.length===0){
+    img.style.display='none'; img.src='';
+    dotsWrap.innerHTML='';
+    arrows.forEach(a=>a.style.display='none');
+    return;
+  }
+  if(detailIndex>=photos.length) detailIndex=0;
+  img.src = photos[detailIndex];
+  img.style.display='block';
+  arrows.forEach(a=>a.style.display = photos.length>1 ? 'flex':'none');
+  dotsWrap.innerHTML = photos.length>1 ? photos.map((_,i)=>`<button class="carousel-dot ${i===detailIndex?'active':''}" onclick="goDetailSlide(${i})"></button>`).join('') : '';
+}
+function detailNext(){ const photos=getDetailPhotos(); if(photos.length<2)return; detailIndex=(detailIndex+1)%photos.length; renderDetailGallery(); }
+function detailPrev(){ const photos=getDetailPhotos(); if(photos.length<2)return; detailIndex=(detailIndex-1+photos.length)%photos.length; renderDetailGallery(); }
+function goDetailSlide(i){ detailIndex=i; renderDetailGallery(); }
+function addToCartFromDetail(){ if(detailPlantId){ addToCart(detailPlantId); closeModal('plantDetailOverlay'); } }
+
+function addToCart(plantId){
+  const item = cart.find(i=>i.plantId===plantId);
+  if(item) item.qty += 1; else cart.push({plantId, qty:1});
+  setPersonal('cart', cart);
+  updateCartBadge();
+  showToast('Добавлено в корзину');
+}
+function updateCartBadge(){
+  const count = cart.reduce((s,i)=>s+i.qty,0);
+  const badge = document.getElementById('cartBadge');
+  badge.textContent = count;
+  badge.style.display = count>0 ? 'flex' : 'none';
+}
+function renderCart(){
+  const wrap = document.getElementById('cartItemsWrap');
+  if(cart.length===0){ wrap.innerHTML = '<p class="hint">Корзина пуста.</p>'; document.getElementById('cartTotal').textContent='0 ₽'; return; }
+  let total = 0;
+  wrap.innerHTML = cart.map(item=>{
+    const p = plants.find(p=>p.id===item.plantId);
+    if(!p) return '';
+    total += p.price*item.qty;
+    const thumb = (p.photos && p.photos.length ? p.photos[0] : p.photoUrl) || '';
+    return `
+    <div class="cart-item">
+      <img src="${escapeAttr(thumb)}" onerror="this.style.background='var(--mint-pale)'; this.src='';">
+      <div class="cart-item-info">
+        <div>${escapeHtml(p.name)}</div>
+        <div class="hint">${p.price} ₽</div>
+        <div class="qty-row">
+          <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
+          <span>${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
+          <button class="qty-btn" onclick="removeFromCart('${p.id}')" title="Удалить">✕</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('cartTotal').textContent = total + ' ₽';
+}
+function changeQty(plantId, delta){
+  const item = cart.find(i=>i.plantId===plantId);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty<=0) cart = cart.filter(i=>i.plantId!==plantId);
+  setPersonal('cart', cart);
+  updateCartBadge();
+  renderCart();
+}
+function removeFromCart(plantId){
+  cart = cart.filter(i=>i.plantId!==plantId);
+  setPersonal('cart', cart);
+  updateCartBadge();
+  renderCart();
+}
+function openCart(){ renderCart(); document.getElementById('cartOverlay').classList.add('show'); document.getElementById('cartDrawer').classList.add('open'); }
+function closeCart(){ document.getElementById('cartDrawer').classList.remove('open'); setTimeout(()=>document.getElementById('cartOverlay').classList.remove('show'),200); }
+
+function openCheckout(){
+  if(cart.length===0){ showToast('Корзина пуста'); return; }
+  document.getElementById('checkoutName').value = account.name||'';
+  document.getElementById('checkoutPhone').value = account.phone||'';
+  const hint = document.getElementById('checkoutMethodHint');
+  hint.textContent = 'Заявка будет отправлена продавцу напрямую с сайта.';
+  openModal('checkoutOverlay');
+}
+function buildOrderText(name, phone, comment){
+  let lines = cart.map(i=>{
+    const pl = plants.find(x=>x.id===i.plantId);
+    const sum = pl?pl.price*i.qty:0;
+    return `${pl?pl.name:'?'} — ${i.qty} шт. × ${pl?pl.price:0} ₽ = ${sum} ₽`;
+  });
+  const total = cart.reduce((s,i)=>{ const pl=plants.find(x=>x.id===i.plantId); return s+(pl?pl.price*i.qty:0); },0);
+  return `Новый заказ с сайта «${content.storeName}»\n\nПокупатель: ${name}\nТелефон: ${phone}\n\nСостав заказа:\n${lines.join('\n')}\n\nИтого: ${total} ₽${comment?'\nКомментарий: '+comment:''}`;
+}
+function submitOrder(){
+  const name = document.getElementById('checkoutName').value.trim();
+  const phone = document.getElementById('checkoutPhone').value.trim();
+  const comment = document.getElementById('checkoutComment').value.trim();
+  if(!name || !phone){ showToast('Укажите имя и телефон'); return; }
+  const text = buildOrderText(name, phone, comment);
+  const total = cart.reduce((s,i)=>{ const pl=plants.find(x=>x.id===i.plantId); return s+(pl?pl.price*i.qty:0); },0);
+  const cartSnapshot = cart.map(i=>({...i}));
+
+  sendSiteEmail({
+    subject: 'Новый заказ — '+content.storeName,
+    message: text
+  }, function(success){
+    if(success){
+      orders.unshift({date:new Date().toLocaleString('ru-RU'), items:cartSnapshot, total, name, phone});
+      setPersonal('orders', orders);
+      account = {name, phone};
+      setPersonal('account', account);
+      cart = [];
+      setPersonal('cart', cart);
+      updateCartBadge();
+      closeModal('checkoutOverlay');
+      closeCart();
+      showSendResult();
+    } else {
+      showToast('Не получилось отправить заявку. Попробуйте ещё раз чуть позже.');
+    }
+  });
+}
+
+function openAccount(){
+  document.getElementById('accName').value = account.name||'';
+  document.getElementById('accPhone').value = account.phone||'';
+  renderOrderHistory();
+  openModal('accountOverlay');
+}
+function saveAccount(){
+  account = {name: document.getElementById('accName').value.trim(), phone: document.getElementById('accPhone').value.trim()};
+  setPersonal('account', account);
+  showToast('Сохранено');
+}
+function renderOrderHistory(){
+  const wrap = document.getElementById('orderHistory');
+  if(orders.length===0){ wrap.innerHTML='<p class="hint">Заказов пока нет.</p>'; return; }
+  wrap.innerHTML = orders.map(o=>`
+    <div class="order-list-item">
+      <strong>${o.date}</strong> — ${o.total} ₽<br>
+      <span class="hint">${o.items.length} позици${o.items.length===1?'я':'й'}</span>
+    </div>
+  `).join('');
+}
+
+function openConsultation(){
+  document.getElementById('consName').value='';
+  document.getElementById('consGoal').value='';
+  document.getElementById('consExisting').value='';
+  document.getElementById('consPhone').value = account.phone||'';
+  document.getElementById('consContactWay').value='Телефон';
+  openModal('consultationOverlay');
+}
+function submitConsultation(){
+  const name = document.getElementById('consName').value.trim();
+  const goal = document.getElementById('consGoal').value.trim();
+  const existing = document.getElementById('consExisting').value.trim();
+  const phone = document.getElementById('consPhone').value.trim();
+  const way = document.getElementById('consContactWay').value;
+  if(!name || !goal || !phone){ showToast('Заполните имя, задачу и телефон'); return; }
+  const text = `Заявка на оформление клумбы с сайта «${content.storeName}»\n\nИмя: ${name}\nЧто хотят сделать: ${goal}\n${existing?'Уже растёт на участке: '+existing+'\n':''}Телефон: ${phone}\nУдобно писать: ${way}`;
+
+  sendSiteEmail({
+    subject: 'Заявка на оформление клумбы — '+content.storeName,
+    message: text
+  }, function(success){
+    if(success){
+      closeModal('consultationOverlay');
+      showSendResult();
+    } else {
+      showToast('Не получилось отправить заявку. Попробуйте ещё раз чуть позже.');
+    }
+  });
+}
+
+/* Sends an email straight from the site (no external mail app/window) via EmailJS.
+   Requires Public Key / Service ID / Template ID configured in Settings — see chat instructions. */
+function sendSiteEmail(payload, callback){
+  if(!content.emailjsPublicKey || !content.emailjsServiceId || !content.emailjsTemplateId){
+    console.warn('EmailJS is not configured yet — see Settings > Приём заявок.');
+    callback(false);
+    return;
+  }
+  if(typeof emailjs === 'undefined'){
+    callback(false);
+    return;
+  }
+  try{
+    emailjs.send(content.emailjsServiceId, content.emailjsTemplateId, {
+      to_email: content.orderEmail,
+      subject: payload.subject,
+      message: payload.message
+    }, content.emailjsPublicKey).then(function(){
+      callback(true);
+    }, function(err){
+      console.error('EmailJS error', err);
+      callback(false);
+    });
+  }catch(e){
+    console.error('EmailJS send failed', e);
+    callback(false);
+  }
+}
+function showSendResult(){
+  openModal('sendResultOverlay');
+}
+
+function onAdminIconClick(){
+  if(isAdmin){
+    openSettingsModal();
+  } else {
+    document.getElementById('pinInput').value = '';
+    openModal('pinOverlay');
+  }
+}
+function onFooterAdminToggle(){
+  if(isAdmin){ logoutAdmin(); } else { onAdminIconClick(); }
+}
+function openSettingsModal(){
+  document.getElementById('orderEmailInput').value = content.orderEmail||'';
+  document.getElementById('emailjsPublicKeyInput').value = content.emailjsPublicKey||'';
+  document.getElementById('emailjsServiceIdInput').value = content.emailjsServiceId||'';
+  document.getElementById('emailjsTemplateIdInput').value = content.emailjsTemplateId||'';
+  document.getElementById('blogLinkInput').value = content.blogLink||'';
+  document.getElementById('githubTokenInput').value = getGithubToken();
+  openModal('settingsOverlay');
+}
+function checkPin(){
+  const val = document.getElementById('pinInput').value;
+  if(val === (content.adminPin||'1234')){
+    isAdmin = true;
+    document.body.classList.add('admin-on');
+    document.getElementById('adminToggleBtn').classList.add('on');
+    document.getElementById('adminToggleBtn').textContent = '🔓 Выйти из режима владельца';
+    closeModal('pinOverlay');
+    renderCategories(); renderPlants(); renderContent(); renderCarousel();
+    showToast('Режим владельца включён');
+  } else {
+    showToast('Неверный PIN');
+  }
+}
+function logoutAdmin(){
+  isAdmin = false;
+  document.body.classList.remove('admin-on');
+  document.getElementById('adminToggleBtn').classList.remove('on');
+  document.getElementById('adminToggleBtn').textContent = '🔒 Режим владельца';
+  renderCategories(); renderPlants(); renderContent(); renderCarousel();
+  showToast('Режим владельца выключен');
+}
+function saveOrderSettings(){
+  content.orderEmail = document.getElementById('orderEmailInput').value.trim();
+  content.emailjsPublicKey = document.getElementById('emailjsPublicKeyInput').value.trim();
+  content.emailjsServiceId = document.getElementById('emailjsServiceIdInput').value.trim();
+  content.emailjsTemplateId = document.getElementById('emailjsTemplateIdInput').value.trim();
+  setShared('site-content', content);
+  showToast('Настройки сохранены');
+}
+function saveBlogLink(){
+  content.blogLink = document.getElementById('blogLinkInput').value.trim();
+  setShared('site-content', content);
+  renderContent();
+  showToast('Ссылка на канал сохранена');
+}
+function savePin(){
+  const val = document.getElementById('newPinInput').value.trim();
+  if(val.length<4){ showToast('PIN должен быть не короче 4 символов'); return; }
+  content.adminPin = val;
+  setShared('site-content', content);
+  showToast('PIN изменён');
+  document.getElementById('newPinInput').value='';
+}
+function saveGithubTokenSetting(){
+  const val = document.getElementById('githubTokenInput').value.trim();
+  setGithubToken(val);
+  showToast(val ? 'Токен сохранён в этом браузере' : 'Токен удалён');
+}
+function switchSettingsTab(tab, btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('settingsTab-orders').style.display = tab==='orders' ? 'block':'none';
+  document.getElementById('settingsTab-security').style.display = tab==='security' ? 'block':'none';
+}
+
+function openModal(id){ document.getElementById(id).classList.add('show'); }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+function escapeHtml(str){ return (str||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function escapeAttr(str){ return (str||'').replace(/"/g,'&quot;'); }
+
+document.querySelectorAll('.overlay').forEach(ov=>{
+  ov.addEventListener('click', function(e){ if(e.target===ov){ if(ov.id==='cartOverlay'){ closeCart(); } else { ov.classList.remove('show'); } } });
+});
+
+init();
+</script>
+</body>
+</html>
