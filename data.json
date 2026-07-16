@@ -14,9 +14,9 @@
     "contactInfo": "Адрес / телефон / соцсети",
     "adminPin": "2508",
     "orderEmail": "rastenia_love@mail.ru",
-    "emailjsPublicKey": "",
-    "emailjsServiceId": "",
-    "emailjsTemplateId": "",
+    "emailjsPublicKey": "zpH7A5UXANiiQvIC9",
+    "emailjsServiceId": "smtp.mail.ru",
+    "emailjsTemplateId": "template_bll9ryk",
     "heroPhotos": [
       "",
       "",
