@@ -12,27 +12,49 @@
     "blogLink": "https://max.ru/join/t5Pq9Ma9SvqBIS3axnOgvsJFyCPckj0kLgp_qaL-fxI",
     "footerAbout": "Продажа растений частным лицом. Все растения можно увидеть вживую.",
     "contactInfo": "Адрес / телефон / соцсети",
-    "adminPin": "1234",
+    "adminPin": "2508",
     "orderEmail": "rastenia_love@mail.ru",
     "emailjsPublicKey": "",
     "emailjsServiceId": "",
     "emailjsTemplateId": "",
-    "heroPhotos": ["", "", "", ""],
+    "heroPhotos": [
+      "",
+      "",
+      "",
+      ""
+    ],
     "features": [
-      {"icon": "leaf", "title": "Растёт у нас", "text": "Продаём только то, что выращено на нашем участке — без перекупки."},
-      {"icon": "eye", "title": "Можно увидеть вживую", "text": "Приезжайте и посмотрите на размер, форму и цветение перед покупкой."},
-      {"icon": "compass", "title": "Поможем с композицией", "text": "Подскажем, как подобрать растения для клумбы или сада."}
+      {
+        "icon": "leaf",
+        "title": "Растёт у нас",
+        "text": "Продаём только то, что выращено на нашем участке — без перекупки."
+      },
+      {
+        "icon": "eye",
+        "title": "Можно увидеть вживую",
+        "text": "Приезжайте и посмотрите на размер, форму и цветение перед покупкой."
+      },
+      {
+        "icon": "compass",
+        "title": "Поможем с композицией",
+        "text": "Подскажем, как подобрать растения для клумбы или сада."
+      }
     ]
   },
   "categories": [
-    {"id": "c-sample", "name": "Комнатные растения"}
+    {
+      "id": "c-sample",
+      "name": "Комнатные растения"
+    }
   ],
   "plants": [
     {
       "id": "p-sample-1",
       "categoryId": "c-sample",
       "name": "Монстера Деликатесная",
-      "photos": ["https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80"],
+      "photos": [
+        "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80"
+      ],
       "photoUrl": "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80",
       "desc": "Крупные резные листья, высота около 60 см.",
       "descFull": "Крупные резные листья, высота около 60 см, растение уже сформировано и хорошо ветвится. Любит яркий рассеянный свет и умеренный полив — даём просохнуть верхнему слою почвы между поливами.",
@@ -43,7 +65,9 @@
       "id": "p-sample-2",
       "categoryId": "c-sample",
       "name": "Эхеверия",
-      "photos": ["https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=800&q=80"],
+      "photos": [
+        "https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=800&q=80"
+      ],
       "photoUrl": "https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=800&q=80",
       "desc": "Компактный суккулент розеткой.",
       "descFull": "Компактный суккулент розеткой, неприхотлив в уходе, подойдёт для солнечного подоконника. Полив редкий, важно не заливать — лишняя влага для этого растения опаснее засухи.",
@@ -54,7 +78,9 @@
       "id": "p-sample-3",
       "categoryId": "c-sample",
       "name": "Фикус Лировидный",
-      "photos": ["https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80"],
+      "photos": [
+        "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80"
+      ],
       "photoUrl": "https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=800&q=80",
       "desc": "Крупное растение для просторной комнаты.",
       "descFull": "Крупное растение для просторной комнаты, любит яркий рассеянный свет и не переносит частых перестановок. Взрослый экземпляр, хорошо разветвлён.",
