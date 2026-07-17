@@ -18,10 +18,10 @@
     "emailjsServiceId": "smtp.mail.ru",
     "emailjsTemplateId": "template_bll9ryk",
     "heroPhotos": [
-      "",
-      "",
-      "",
-      ""
+      "photos/photo_1_2025-08-06_20-50-33.jpg",
+      "photos/photo_2_2025-08-06_20-46-18.jpg",
+      "photos/photo_2_2025-08-06_20-46-39.jpg",
+      "photos/photo_3_2025-08-06_20-50-57.jpg"
     ],
     "features": [
       {
