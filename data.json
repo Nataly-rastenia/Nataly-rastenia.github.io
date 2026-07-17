@@ -47,5 +47,19 @@
       "name": "Гортензии"
     }
   ],
-  "plants": []
+  "plants": [
+    {
+      "id": "p1784259153402",
+      "categoryId": "c1784258602113",
+      "name": "Гортензия 1",
+      "photos": [
+        "photos/gortenzii/gortenziaSuperPuper.jpg"
+      ],
+      "photoUrl": "photos/gortenzii/gortenziaSuperPuper.jpg",
+      "desc": "Гортензия супер пупер, атвечаю",
+      "descFull": "гортензия, растет у нас в огороде, супер пупер внешне, атвечаю",
+      "stock": 1,
+      "price": 10000000
+    }
+  ]
 }
