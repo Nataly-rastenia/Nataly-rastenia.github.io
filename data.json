@@ -49,19 +49,6 @@
   ],
   "plants": [
     {
-      "id": "p-sample-2",
-      "categoryId": "c-sample",
-      "name": "Эхеверия",
-      "photos": [
-        "https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=800&q=80"
-      ],
-      "photoUrl": "https://images.unsplash.com/photo-1459156212016-c812468e2115?auto=format&fit=crop&w=800&q=80",
-      "desc": "Компактный суккулент розеткой.",
-      "descFull": "Компактный суккулент розеткой, неприхотлив в уходе, подойдёт для солнечного подоконника. Полив редкий, важно не заливать — лишняя влага для этого растения опаснее засухи.",
-      "stock": 7,
-      "price": 450
-    },
-    {
       "id": "p-sample-3",
       "categoryId": "c-sample",
       "name": "Фикус Лировидный",
