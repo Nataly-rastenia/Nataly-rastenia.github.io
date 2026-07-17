@@ -41,6 +41,11 @@
       }
     ]
   },
-  "categories": [],
+  "categories": [
+    {
+      "id": "c-sample",
+      "name": "Комнатные растения"
+    }
+  ],
   "plants": []
 }
